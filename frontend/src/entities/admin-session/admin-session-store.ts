@@ -13,8 +13,10 @@ interface AdminSessionState {
   token: string | null;
   user: AdminUser | null;
   isAuthenticated: boolean;
+  hasHydrated: boolean;
   login: (token: string, user: AdminUser) => void;
   logout: () => void;
+  setHasHydrated: (hasHydrated: boolean) => void;
 }
 
 export const useAdminSessionStore = create<AdminSessionState>()(
@@ -23,6 +25,7 @@ export const useAdminSessionStore = create<AdminSessionState>()(
       token: null,
       user: null,
       isAuthenticated: false,
+      hasHydrated: false,
       login: (token, user) => {
         setAccessToken(token);
         set({ token, user, isAuthenticated: true });
@@ -31,11 +34,13 @@ export const useAdminSessionStore = create<AdminSessionState>()(
         setAccessToken(null);
         set({ token: null, user: null, isAuthenticated: false });
       },
+      setHasHydrated: (hasHydrated) => set({ hasHydrated }),
     }),
     {
       name: "saudade-admin-session",
       onRehydrateStorage: () => (state) => {
         setAccessToken(state?.token ?? null);
+        state?.setHasHydrated(true);
       },
     }
   )

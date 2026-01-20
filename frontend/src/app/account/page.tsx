@@ -9,7 +9,7 @@ import { Package, User as UserIcon } from "lucide-react";
 import { useOrders } from "@/features/orders/api/use-orders";
 
 export default function AccountPage() {
-  const { user, logout, isAuthenticated } = useSessionStore();
+  const { user, logout, isAuthenticated, hasHydrated } = useSessionStore();
   const router = useRouter();
   const { data: orders } = useOrders(isAuthenticated);
   const statusLabels: Record<number, string> = {
@@ -21,12 +21,15 @@ export default function AccountPage() {
   };
 
   useEffect(() => {
+    if (!hasHydrated) {
+      return;
+    }
     if (!isAuthenticated) {
       router.push("/login");
     }
-  }, [isAuthenticated, router]);
+  }, [hasHydrated, isAuthenticated, router]);
 
-  if (!user) return null;
+  if (!hasHydrated || !user) return null;
 
   return (
     <div className="py-12 md:py-20 bg-brand-cream min-h-screen">

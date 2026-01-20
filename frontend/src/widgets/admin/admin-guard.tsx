@@ -6,14 +6,17 @@ import { useAdminSessionStore } from "@/entities/admin-session/admin-session-sto
 import { AdminShell } from "./admin-shell";
 
 export function AdminGuard({ children }: { children: ReactNode }) {
-  const { isAuthenticated, logout } = useAdminSessionStore();
+  const { isAuthenticated, logout, hasHydrated } = useAdminSessionStore();
   const router = useRouter();
 
   useEffect(() => {
+    if (!hasHydrated) {
+      return;
+    }
     if (!isAuthenticated) {
       router.push("/admin/login");
     }
-  }, [isAuthenticated, router]);
+  }, [hasHydrated, isAuthenticated, router]);
 
   useEffect(() => {
     const handler = () => {
@@ -24,7 +27,7 @@ export function AdminGuard({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("admin-unauthorized", handler);
   }, [logout, router]);
 
-  if (!isAuthenticated) {
+  if (!hasHydrated || !isAuthenticated) {
     return null;
   }
 

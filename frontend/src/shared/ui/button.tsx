@@ -3,20 +3,20 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/utils/cn";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-sm font-montserrat tracking-wide text-sm transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-full font-montserrat font-medium text-sm transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-gold focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-50 hover:-translate-y-0.5 active:translate-y-0",
   {
     variants: {
       variant: {
         default:
-          "bg-brand-gold text-white hover:bg-brand-gold/90 shadow-md hover:shadow-lg",
+          "bg-brand-teal text-white shadow-sm hover:bg-brand-teal/90 hover:shadow-md hover:brightness-95",
         secondary:
-          "bg-brand-teal text-white hover:bg-brand-teal/90 shadow-md hover:shadow-lg",
+          "bg-brand-gold text-white shadow-sm hover:bg-brand-gold/90 hover:shadow-md hover:brightness-95",
         outline:
-          "border border-brand-teal/30 text-brand-teal bg-white/0 hover:border-brand-gold hover:text-brand-gold hover:bg-brand-gold/10 shadow-sm",
+          "border border-brand-teal/30 text-brand-teal bg-brand-cream hover:border-brand-gold hover:text-brand-gold hover:bg-brand-gold/10 hover:shadow-sm",
         ghost:
-          "text-brand-teal hover:text-brand-gold hover:bg-brand-gold/10",
-        link: "text-brand-gold underline-offset-4 hover:underline",
-        white: "bg-white text-brand-teal hover:bg-white/90 shadow-md",
+          "text-brand-teal bg-brand-cream/60 hover:text-brand-gold hover:bg-brand-gold/10",
+        link: "text-brand-gold bg-brand-cream/60 hover:bg-brand-gold/10",
+        white: "bg-white text-brand-teal shadow-sm hover:bg-white/95 hover:shadow-md",
       },
       size: {
         default: "h-11 px-8",

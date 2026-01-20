@@ -24,7 +24,7 @@ services:
       ConnectionStrings__CatalogDb: Server=db,1433;Database=SaudadeCatalog;User Id=sa;Password=Your_password123;TrustServerCertificate=true;MultipleActiveResultSets=true
       ConnectionStrings__SalesDb: Server=db,1433;Database=SaudadeSales;User Id=sa;Password=Your_password123;TrustServerCertificate=true;MultipleActiveResultSets=true
       ConnectionStrings__IdentityDb: Server=db,1433;Database=SaudadeIdentity;User Id=sa;Password=Your_password123;TrustServerCertificate=true;MultipleActiveResultSets=true
-      Jwt__Secret: "CHANGE_ME_FOR_DEV_ONLY_32CHARS"
+      Jwt__Secret: "CHANGE_ME_FOR_DEV_ONLY_32CHARS!!"
       Jwt__Issuer: "Saudade"
       Jwt__Audience: "SaudadeAdmin"
       ADMIN_EMAIL: "admin@saudade.local"

@@ -10,8 +10,10 @@ interface User {
 interface SessionState {
   user: User | null;
   isAuthenticated: boolean;
+  hasHydrated: boolean;
   login: (user: User) => void;
   logout: () => void;
+  setHasHydrated: (hasHydrated: boolean) => void;
 }
 
 export const useSessionStore = create<SessionState>()(
@@ -19,11 +21,16 @@ export const useSessionStore = create<SessionState>()(
     (set) => ({
       user: null,
       isAuthenticated: false,
+      hasHydrated: false,
       login: (user) => set({ user, isAuthenticated: true }),
       logout: () => set({ user: null, isAuthenticated: false }),
+      setHasHydrated: (hasHydrated) => set({ hasHydrated }),
     }),
     {
       name: "saudade-session",
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

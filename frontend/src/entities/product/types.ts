@@ -22,11 +22,13 @@ export interface Category {
   name: string;
 }
 
+export type ProductSort = "relevance" | "newest" | "price_asc" | "price_desc" | "best_sellers";
+
 export interface ProductFilter {
   category?: string;
-  minPrice?: number;
-  maxPrice?: number;
-  sort?: 'relevance' | 'price_asc' | 'price_desc' | 'newest';
+  min?: number;
+  max?: number;
+  sort?: ProductSort;
   q?: string;
   page?: number;
   pageSize?: number;

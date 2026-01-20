@@ -10,8 +10,6 @@ import { useCartStore } from "@/entities/cart/cart-store";
 
 const NAV_LINKS = [
   { href: "/products", label: "Shop" },
-  { href: "/about", label: "About" },
-  { href: "/journal", label: "Journal" },
 ];
 
 export function Header() {
@@ -43,11 +41,6 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <Link href="/products">
-            <Button variant="outline" className="ml-4">
-              New Arrivals
-            </Button>
-          </Link>
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-4">

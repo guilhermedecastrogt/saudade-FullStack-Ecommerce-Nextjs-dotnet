@@ -1,5 +1,10 @@
-import { CatalogView } from "./catalog-view";
+import { Suspense } from "react";
+import { ProductsPage as ProductsPageView } from "@/widgets/products/products-page";
 
 export default function ProductsPage() {
-  return <CatalogView />;
+  return (
+    <Suspense>
+      <ProductsPageView />
+    </Suspense>
+  );
 }

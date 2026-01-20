@@ -1,0 +1,58 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Your_password123"
+    ports:
+      - "1433:1433"
+    volumes:
+      - saudade_db:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P $$SA_PASSWORD -Q \"SELECT 1\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__CatalogDb: Server=db,1433;Database=SaudadeCatalog;User Id=sa;Password=Your_password123;TrustServerCertificate=true;MultipleActiveResultSets=true
+      ConnectionStrings__SalesDb: Server=db,1433;Database=SaudadeSales;User Id=sa;Password=Your_password123;TrustServerCertificate=true;MultipleActiveResultSets=true
+      ConnectionStrings__IdentityDb: Server=db,1433;Database=SaudadeIdentity;User Id=sa;Password=Your_password123;TrustServerCertificate=true;MultipleActiveResultSets=true
+      Jwt__Secret: "CHANGE_ME_FOR_DEV_ONLY_32CHARS"
+      Jwt__Issuer: "Saudade"
+      Jwt__Audience: "SaudadeAdmin"
+      ADMIN_EMAIL: "admin@saudade.local"
+      ADMIN_PASSWORD: "Admin123!"
+      ADMIN_NAME: "Saudade Admin"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8080/api
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: http://localhost:8080/api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  saudade_db:
